@@ -12,8 +12,9 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <resteasy.version>4.7.9.Final</resteasy.version>
-        <jakartaee.version>8.0.0</jakartaee.version>
+
+        <resteasy.version>6.2.5.Final</resteasy.version>
+        <jakartaee.version>10.0.0</jakartaee.version>
     </properties>
 
     <dependencyManagement>

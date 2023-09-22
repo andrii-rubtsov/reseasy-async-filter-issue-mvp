@@ -1,7 +1,8 @@
 package org.example;
 
 
-import javax.ws.rs.core.Application;
+import jakarta.ws.rs.core.Application;
+
 import java.util.Set;
 
 public class RestEasyApplication extends Application {
@@ -13,7 +14,6 @@ public class RestEasyApplication extends Application {
                 // Comment out AsyncFilter to test that "/resource/async" works w/o it
                 ,new AsyncFilter()
         );
-
     }
 
 }
