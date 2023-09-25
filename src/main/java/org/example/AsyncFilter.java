@@ -4,11 +4,16 @@ import org.jboss.resteasy.core.interception.jaxrs.SuspendableContainerRequestCon
 
 import jakarta.ws.rs.container.ContainerRequestContext;
 import jakarta.ws.rs.container.ContainerRequestFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class AsyncFilter implements ContainerRequestFilter {
+
+    private static final Logger logger = LoggerFactory.getLogger(AsyncFilter.class);
 
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
@@ -20,11 +25,11 @@ public class AsyncFilter implements ContainerRequestFilter {
             try {
                 TimeUnit.MILLISECONDS.sleep(500);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("Error while waiting", e);
                 suspendableCtx.resume(e);
             }
 
-            System.out.println("Resuming call from async filter");
+            logger.debug("Resuming call from async filter");
             suspendableCtx.resume();
         });
     }

@@ -7,6 +7,9 @@ import jakarta.ws.rs.container.AsyncResponse;
 import jakarta.ws.rs.container.Suspended;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,12 +19,15 @@ import java.util.concurrent.atomic.AtomicLong;
 
 @Path("/resource")
 public class AsyncResource {
+
+    private static final Logger logger = LoggerFactory.getLogger(AsyncResource.class);
+
     private final AtomicLong counter = new AtomicLong();
 
     private final ExecutorService executorService = Executors.newCachedThreadPool();
 
     public AsyncResource() {
-        System.out.println("Resource created");
+        logger.info("Resource created");
     }
 
     /**
@@ -32,7 +38,7 @@ public class AsyncResource {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public void async(@Suspended final AsyncResponse response) {
-        System.out.println("Async handler called");
+        logger.info("Async handler called");
         executorService.submit(() -> {
             try {
                 TimeUnit.SECONDS.sleep(1);
@@ -41,14 +47,14 @@ public class AsyncResource {
             }
             response.resume(String.format("Async response %s\n", counter.getAndIncrement()));
         });
-        System.out.println("Async handler ended");
+        logger.info("Async handler ended");
     }
 
     @Path("/sync")
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public Response sync() throws ExecutionException, InterruptedException {
-        System.out.println("Sync handler started");
+        logger.info("Sync handler started");
         return executorService.submit(() -> {
             try {
                 TimeUnit.SECONDS.sleep(1);
