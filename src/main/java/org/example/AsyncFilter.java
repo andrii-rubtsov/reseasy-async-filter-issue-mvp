@@ -24,13 +24,14 @@ public class AsyncFilter implements ContainerRequestFilter {
         executorService.submit(() -> {
             try {
                 TimeUnit.MILLISECONDS.sleep(500);
+                logger.debug("Resuming call from async filter");
+                suspendableCtx.resume();
+
             } catch (InterruptedException e) {
                 logger.error("Error while waiting", e);
                 suspendableCtx.resume(e);
             }
 
-            logger.debug("Resuming call from async filter");
-            suspendableCtx.resume();
         });
     }
 }
