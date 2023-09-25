@@ -5,8 +5,12 @@ import org.jboss.resteasy.core.ResourceMethodRegistry;
 import org.jboss.resteasy.core.ResteasyDeploymentImpl;
 import org.jboss.resteasy.core.providerfactory.ResteasyProviderFactoryImpl;
 import org.jboss.resteasy.plugins.server.netty.NettyJaxrsServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Server {
+
+    private static final Logger logger = LoggerFactory.getLogger(Server.class);
 
     private final NettyJaxrsServer instance;
 
@@ -33,7 +37,10 @@ public class Server {
     }
 
     public static void main(String[] args) {
-        new Server("0.0.0.0", 9999).start();
+        String host = "0.0.0.0";
+        int port = 9999;
+        logger.info("Starting server at: {}:{}", host, port);
+        new Server(host, port).start();
     }
 
 }
